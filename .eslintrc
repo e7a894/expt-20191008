@@ -1,4 +1,6 @@
 {
   "extends": ["@nuxtjs/eslint-config-typescript"],
-  "rules": {}
+  "rules": {
+    "semi": ["error", "always"] // https://eslint.org/docs/rules/semi
+  }
 }
