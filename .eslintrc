@@ -1,6 +1,8 @@
 {
   "extends": ["@nuxtjs/eslint-config-typescript"],
   "rules": {
-    "semi": ["error", "always"] // https://eslint.org/docs/rules/semi
+    "curly": ["error", "multi-line"],
+    "semi": ["error", "always"], // https://eslint.org/docs/rules/semi
+    "space-before-function-paren": ["error", "never"]
   }
 }
