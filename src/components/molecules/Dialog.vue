@@ -13,6 +13,7 @@ import AButton from '~/components/atoms/Button.vue';
 
 @Component({ components: { AButton } })
 export default class Dialog extends Vue {
+  dialog!: HTMLDialogElement;
   private attach() {
     if (!this.$parent) {
       this.$mount();
@@ -31,13 +32,27 @@ export default class Dialog extends Vue {
       this.$destroy();
     }
   }
+  mounted() {
+    this.dialog = this.$refs.dialog as HTMLDialogElement;
+  }
   close() {
-    (this.$refs.dialog as HTMLDialogElement).close();
+    // if (!this.dialog) this.dialog = this.$refs.dialog as HTMLDialogElement;
+    if (this.dialog) this.dialog.close('yeah!');
+    // (this.$refs.dialog as HTMLDialogElement).close();
     this.remove();
   }
-  show() {
+  show(): Promise<string> {
     this.attach();
-    (this.$refs.dialog as HTMLDialogElement).showModal();
+    // if (!this.dialog) this.dialog = this.$refs.dialog as HTMLDialogElement;
+    return new Promise((resolve) => {
+      this.dialog.showModal();
+      this.dialog.close = function(v: string) { resolve(v); };
+    });
+    // if (this.dialog) {
+    //   const result = await this.dialog.showModal();
+    //   return result;
+    // }
+    // (this.$refs.dialog as HTMLDialogElement).showModal();
   }
 }
 </script>
