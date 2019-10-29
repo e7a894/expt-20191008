@@ -10,9 +10,10 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import AButton from '~/components/atoms/Button.vue';
+import { IDialog } from '~/components/molecules/types';
 
 @Component({ components: { AButton } })
-export default class Dialog extends Vue {
+export default class Dialog extends Vue implements IDialog {
   dialog!: HTMLDialogElement;
   private attach() {
     if (!this.$parent) {
@@ -36,23 +37,27 @@ export default class Dialog extends Vue {
     this.dialog = this.$refs.dialog as HTMLDialogElement;
   }
   close() {
-    // if (!this.dialog) this.dialog = this.$refs.dialog as HTMLDialogElement;
     if (this.dialog) this.dialog.close('yeah!');
-    // (this.$refs.dialog as HTMLDialogElement).close();
     this.remove();
   }
   show(): Promise<string> {
     this.attach();
-    // if (!this.dialog) this.dialog = this.$refs.dialog as HTMLDialogElement;
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       this.dialog.showModal();
-      this.dialog.close = function(v: string) { resolve(v); };
+      this.dialog.close = (v: string) => resolve(v);
     });
-    // if (this.dialog) {
-    //   const result = await this.dialog.showModal();
-    //   return result;
-    // }
-    // (this.$refs.dialog as HTMLDialogElement).showModal();
   }
 }
 </script>
+
+<style lang="scss" scoped>
+dialog {
+  border: 0;
+  border-radius: 5px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+</style>

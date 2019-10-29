@@ -16,19 +16,7 @@ import MDialog from '~/components/molecules/Dialog.vue';
 export default class extends Vue {
   async openDialog() {
     const dialog = new MDialog();
-    const result = await dialog.show();
-    console.log(`result: ${result}`);
+    await dialog.show();
   }
 }
-
-// export default Vue.extend({
-//   // components: { MDialog },
-//   methods: {
-//     openDialog() {
-//       const dialog = new MDialog();
-//       dialog.show();
-//     }
-//   }
-// });
-
 </script>
