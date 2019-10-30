@@ -9,13 +9,19 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Component from 'vue-class-component';
+import { Component } from 'nuxt-property-decorator';
 import MDialog from '~/components/molecules/Dialog.vue';
+import { IButton } from '~/components/molecules/types';
 
 @Component({ components: { MDialog } })
 export default class extends Vue {
+  buttons: IButton[] = [
+    { text: 'save', value: 'save', click: () => console.log('save') },
+    { text: 'cancel', value: 'cancel', click: () => console.log('cancel') }
+  ];
   async openDialog() {
     const dialog = new MDialog();
+    dialog.buttons = this.buttons;
     await dialog.show();
   }
 }

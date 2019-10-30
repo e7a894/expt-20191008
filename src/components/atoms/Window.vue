@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="window"
-    :style="{ width: `${width}px` }"
-  >
+  <div class="window" :style="{ width: `${width}px` }">
     <slot />
   </div>
 </template>

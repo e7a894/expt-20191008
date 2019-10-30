@@ -1,45 +1,66 @@
 <template>
-  <dialog ref="dialog">
-    <a-button @click="close">
-      button
-    </a-button>
+  <dialog ref="dialog" @cancel="() => 'cancel'">
+    <button
+      v-for="(b, index) in buttons"
+      :key="index"
+      @click="() => click(b.value, b.click)"
+    >
+      {{ b.text }}
+    </button>
   </dialog>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import Component from 'vue-class-component';
+import { Component, Prop } from 'nuxt-property-decorator';
 import AButton from '~/components/atoms/Button.vue';
-import { IDialog } from '~/components/molecules/types';
+import { IButton, IDialog } from '~/components/molecules/types';
 
 @Component({ components: { AButton } })
 export default class Dialog extends Vue implements IDialog {
   dialog!: HTMLDialogElement;
+
+  @Prop() buttons!: IButton[];
+
   private attach() {
+    this.$mount();
     if (!this.$parent) {
-      this.$mount();
       document.body.appendChild(this.$el);
     } else {
-      this.$mount();
       this.$parent.$el.appendChild(this.$el);
     }
   }
+
   private remove() {
     if (!this.$parent) {
       document.body.removeChild(this.$el);
-      this.$destroy();
     } else {
       this.$parent.$el.removeChild(this.$el);
-      this.$destroy();
     }
+    this.$destroy();
   }
+
+  private click(v: string, e: Function) {
+    e();
+    this.close(v);
+  }
+
   mounted() {
     this.dialog = this.$refs.dialog as HTMLDialogElement;
   }
-  close() {
-    if (this.dialog) this.dialog.close('yeah!');
+
+  get returnValue(): string {
+    return this.dialog.returnValue;
+  }
+
+  close(value: string) {
+    if (this.dialog) {
+      this.dialog.returnValue = value;
+      this.dialog.close();
+    }
     this.remove();
   }
+
   show(): Promise<string> {
     this.attach();
     return new Promise(resolve => {

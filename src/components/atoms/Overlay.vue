@@ -14,7 +14,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .overlay {
   align-items: center;
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   height: 100%;
   justify-content: center;
