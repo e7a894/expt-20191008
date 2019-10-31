@@ -1,12 +1,15 @@
 <template>
-  <dialog ref="dialog" @cancel="() => 'cancel'">
-    <button
-      v-for="(b, index) in buttons"
-      :key="index"
-      @click="() => click(b.value, b.click)"
-    >
-      {{ b.text }}
-    </button>
+  <dialog ref="dialog" @cancel="() => close('')">
+    <div>{{ message }}</div>
+    <div>
+      <button
+        v-for="(b, index) in buttons"
+        :key="index"
+        @click="() => click(b.value, b.click)"
+      >
+        {{ b.text }}
+      </button>
+    </div>
   </dialog>
 </template>
 
@@ -18,9 +21,10 @@ import { IButton, IDialog } from '~/components/molecules/types';
 
 @Component({ components: { AButton } })
 export default class Dialog extends Vue implements IDialog {
-  dialog!: HTMLDialogElement;
+  private dialog!: HTMLDialogElement;
 
   @Prop() buttons!: IButton[];
+  @Prop() message!: string;
 
   private attach() {
     this.$mount();
@@ -40,20 +44,21 @@ export default class Dialog extends Vue implements IDialog {
     this.$destroy();
   }
 
-  private click(v: string, e: Function) {
-    e();
+  private click(v: string, e: Function | null) {
+    if (e) e();
     this.close(v);
   }
 
   mounted() {
     this.dialog = this.$refs.dialog as HTMLDialogElement;
+    this.dialog.returnValue = '';
   }
 
   get returnValue(): string {
     return this.dialog.returnValue;
   }
 
-  close(value: string) {
+  private close(value: string) {
     if (this.dialog) {
       this.dialog.returnValue = value;
       this.dialog.close();

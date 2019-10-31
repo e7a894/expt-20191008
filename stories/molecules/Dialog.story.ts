@@ -19,9 +19,10 @@ storiesOf('molecules/Dialog', module).add('playground', () => ({
     async openDialog() {
       const dialog: IDialog = new MDialog();
       dialog.buttons = [
-        { text: 'save', value: 'save', click: () => console.log('save') },
-        { text: 'cancel', value: 'cancel', click: () => console.log('cancel') }
+        { text: 'delete', value: 'delete!' },
+        { text: 'cancel', value: 'cancel!' }
       ];
+      dialog.message = 'Are you sure you want to delete?';
       await dialog.show();
       (this as data).result = dialog.returnValue;
     }
