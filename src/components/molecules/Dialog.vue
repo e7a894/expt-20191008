@@ -1,5 +1,6 @@
 <template>
   <dialog ref="dialog" @cancel="() => close('')">
+    <span class="fas fa-camera fa-spin" />
     <div>{{ message }}</div>
     <div>
       <button

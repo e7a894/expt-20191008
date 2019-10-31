@@ -9,7 +9,7 @@ const config: Configuration = {
     }
   },
   buildModules: ['@nuxt/typescript-build'],
-  css: ['@/assets/global'],
+  css: ['@/assets/global', '@fortawesome/fontawesome-free/css/all.css'],
   srcDir: 'src'
 };
 
